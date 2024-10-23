@@ -4,7 +4,7 @@ import { IUser, User } from 'src/users/applications/domains/user.domains';
 import { Builder } from 'builder-pattern';
 import { UserRepository } from 'src/users/applications/ports/user.repository';
 import { PrismaToken } from 'src/configs/prisma/prisma.config';
-
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class UserPrismaRepository implements UserRepository {
@@ -26,6 +26,7 @@ export class UserPrismaRepository implements UserRepository {
     // สร้างผู้ใช้ใหม่
     const userCreated = await this.prisma.user.create({
       data: {
+        id: uuidv4(),
         username: user.username,
         email: user.email,
         hashedPassword: user.hashedPassword,

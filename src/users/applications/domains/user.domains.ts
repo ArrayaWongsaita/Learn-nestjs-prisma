@@ -2,7 +2,7 @@ import * as bcrypt from 'bcrypt';
 import { saltRounds } from 'src/configs/bcrypt.config';
 
 export interface IUser {
-  id?: number;
+  id?: string;
 
   email: string;
   username: string;
@@ -16,7 +16,7 @@ export interface IUser {
 }
 
 export class User implements IUser {
-  id?: number;
+  id?: string;
   email: string;
   username: string;
   hashedPassword: string;

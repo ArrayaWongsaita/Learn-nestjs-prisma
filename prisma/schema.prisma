@@ -32,7 +32,7 @@ enum Gender {
 }
 
 model User {
-  id             Int      @id @default(autoincrement())
+  id             String      @id @default(uuid()) @map("id")
   email          String   @unique @map("email") @db.VarChar(255)
   hashedPassword String   @map("password") @db.VarChar(255)
   username       String   @map("username") @db.VarChar(100)
@@ -46,7 +46,7 @@ model User {
 
 model Cart {
   id           Int        @id @default(autoincrement()) @map("id")
-  userId       Int        @unique @map("user_id")
+  userId       String        @unique @map("user_id")
   discountCode String?    @map("discount_code") @db.VarChar(50)
   user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   cartItems    CartItem[]
@@ -163,7 +163,7 @@ model CartItem {
 
 model Order {
   id             Int         @id @default(autoincrement()) @map("id")
-  userId         Int         @map("user_id")
+  userId         String         @map("user_id")
   totalAmount    Decimal     @map("total_amount")
   discountCode   String?     @map("discount_code") @db.VarChar(50)
   discountAmount Decimal?    @map("discount_amount")
