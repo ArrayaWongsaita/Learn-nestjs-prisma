@@ -1,0 +1,238 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}
+
+enum DiscountType {
+  PERCENTAGE
+  FIXED_AMOUNT
+}
+
+enum OrderStatus {
+  PENDING
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+enum Gender {
+  MEN
+  FEMALE
+}
+
+model User {
+  id             Int      @id @default(autoincrement())
+  email          String   @unique @map("email") @db.VarChar(255)
+  hashedPassword String   @map("password") @db.VarChar(255)
+  username       String   @map("username") @db.VarChar(100)
+  cart           Cart?
+  orders         Order[]
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  @@map("users")
+}
+
+model Cart {
+  id           Int        @id @default(autoincrement()) @map("id")
+  userId       Int        @unique @map("user_id")
+  discountCode String?    @map("discount_code") @db.VarChar(50)
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  cartItems    CartItem[]
+  discount     Discount?  @relation(fields: [discountCode], references: [code])
+  createdAt    DateTime   @default(now()) @map("created_at")
+  updatedAt    DateTime   @updatedAt @map("updated_at")
+
+  @@map("carts")
+}
+
+model ProductType {
+  id                 Int                 @id @default(autoincrement()) @map("id")
+  name               String              @map("name") @db.VarChar(100)
+  imageUrl           String?             @map("image_url") @db.VarChar(255)
+  productCollections ProductCollection[]
+  createdAt          DateTime            @default(now()) @map("created_at")
+  updatedAt          DateTime            @updatedAt @map("updated_at")
+
+  @@map("product_types")
+}
+
+model ProductCollection {
+  id        Int       @id @default(autoincrement()) @map("id")
+  name      String    @map("name") @db.VarChar(100)
+  imageUrl  String?   @map("image_url") @db.VarChar(255)
+  products  Product[]
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+
+  productType         ProductType           @relation(fields: [productTypeId], references: [id])
+  productTypeId       Int                   @map("product_type_id")
+  ProductColorPalette ProductColorPalette[]
+  ProductMaterial     ProductMaterial[]
+  ProductSize         ProductSize[]
+
+  @@map("product_collections")
+}
+
+model Product {
+  id                    Int                  @id @default(autoincrement()) @map("id")
+  name                  String               @map("name") @db.VarChar(255)
+  basePrice             Decimal              @map("base_price")
+  imageUrl              String?              @map("image_url") @db.VarChar(255)
+  productCollectionId   Int                  @map("product_collection_id")
+  productCollection     ProductCollection    @relation(fields: [productCollectionId], references: [id])
+  productColorPaletteId Int?                 @map("product_color_palette_id")
+  productColorPalette   ProductColorPalette? @relation(fields: [productColorPaletteId], references: [id])
+  productMaterialId     Int?                 @map("product_material_id")
+  productMaterial       ProductMaterial?     @relation(fields: [productMaterialId], references: [id])
+  productSizeId         Int?                 @map("product_size_id")
+  productSize           ProductSize?         @relation(fields: [productSizeId], references: [id])
+  cartItems             CartItem[]
+  orderItems            OrderItem[]
+  createdAt             DateTime             @default(now()) @map("created_at")
+  updatedAt             DateTime             @updatedAt @map("updated_at")
+
+  @@map("products")
+}
+
+model ProductColorPalette {
+  id        Int       @id @default(autoincrement()) @map("id")
+  name      String    @map("name") @db.VarChar(50)
+  colorCode String    @map("color_code") @db.VarChar(255)
+  products  Product[]
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+
+  productCollectionId Int               @map("product_collection_id")
+  productCollection   ProductCollection @relation(fields: [productCollectionId], references: [id])
+
+  @@map("product_color_palettes")
+}
+
+model ProductMaterial {
+  id        Int       @id @default(autoincrement()) @map("id")
+  name      String    @map("name") @db.VarChar(50)
+  colorCode String?   @map("color_code") @db.VarChar(255)
+  products  Product[]
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+
+  productCollectionId Int               @map("product_collection_id")
+  productCollection   ProductCollection @relation(fields: [productCollectionId], references: [id])
+
+  @@map("product_materials")
+}
+
+model ProductSize {
+  id        Int       @id @default(autoincrement()) @map("id")
+  size      Float     @map("size")
+  gender    Gender    @map("gender")
+  products  Product[]
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+
+  productCollectionId Int               @map("product_collection_id")
+  productCollection   ProductCollection @relation(fields: [productCollectionId], references: [id])
+
+  @@map("product_sizes")
+}
+
+model CartItem {
+  id        Int      @id @default(autoincrement()) @map("id")
+  cartId    Int      @map("cart_id")
+  productId Int      @map("product_id")
+  quantity  Int      @default(1) @map("quantity")
+  cart      Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("cart_items")
+}
+
+model Order {
+  id             Int         @id @default(autoincrement()) @map("id")
+  userId         Int         @map("user_id")
+  totalAmount    Decimal     @map("total_amount")
+  discountCode   String?     @map("discount_code") @db.VarChar(50)
+  discountAmount Decimal?    @map("discount_amount")
+  status         OrderStatus @default(PENDING) @map("status")
+  orderItems     OrderItem[]
+  payment        Payment?
+  user           User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  discount       Discount?   @relation(fields: [discountCode], references: [code])
+  createdAt      DateTime    @default(now()) @map("created_at")
+  updatedAt      DateTime    @updatedAt @map("updated_at")
+
+  @@map("orders")
+}
+
+model OrderItem {
+  id        Int      @id @default(autoincrement()) @map("id")
+  orderId   Int      @map("order_id")
+  productId Int      @map("product_id")
+  quantity  Int      @default(1) @map("quantity")
+  price     Decimal  @map("price")
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("order_items")
+}
+
+model Payment {
+  id         Int           @id @default(autoincrement()) @map("id")
+  orderId    Int           @unique @map("order_id")
+  amount     Decimal       @map("amount")
+  status     PaymentStatus @default(PENDING) @map("status")
+  slipUrl    String        @map("slip_url") @db.VarChar(255)
+  verified   Boolean       @default(false) @map("verified")
+  verifiedAt DateTime?     @map("verified_at")
+  order      Order         @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  createdAt  DateTime      @default(now()) @map("created_at")
+  updatedAt  DateTime      @updatedAt @map("updated_at")
+
+  @@map("payments")
+}
+
+model Discount {
+  id          Int          @id @default(autoincrement()) @map("id")
+  code        String       @unique @map("code") @db.VarChar(50)
+  type        DiscountType @map("type")
+  value       Decimal      @map("value")
+  minAmount   Decimal?     @map("min_amount")
+  maxDiscount Decimal?     @map("max_discount")
+  startDate   DateTime     @map("start_date")
+  endDate     DateTime     @map("end_date")
+  isActive    Boolean      @default(true) @map("is_active")
+  usageLimit  Int?         @map("usage_limit")
+  usageCount  Int          @default(0) @map("usage_count")
+  carts       Cart[]
+  orders      Order[]
+  createdAt   DateTime     @default(now()) @map("created_at")
+  updatedAt   DateTime     @updatedAt @map("updated_at")
+
+  @@map("discounts")
+}
+
+model Admin {
+  id        Int      @id @default(autoincrement()) @map("id")
+  email     String   @unique @map("email") @db.VarChar(255)
+  password  String   @map("password") @db.VarChar(255)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("admins")
+}
