@@ -1,16 +1,20 @@
-import { Injectable, Inject, NotFoundException, ConflictException, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  Inject,
+  NotFoundException,
+  ConflictException,
+  BadRequestException,
+} from '@nestjs/common';
 import { PrismaClient, User as PrismaUser } from '@prisma/client';
 import { IUser, User } from 'src/users/applications/domains/user.domains';
 import { Builder } from 'builder-pattern';
 import { UserRepository } from 'src/users/applications/ports/user.repository';
 import { PrismaToken } from 'src/configs/prisma/prisma.config';
-import { v4 as uuidv4 } from 'uuid';
+import { v7 as uuidv7 } from 'uuid';
 
 @Injectable()
 export class UserPrismaRepository implements UserRepository {
-  constructor(
-    @Inject(PrismaToken) private readonly prisma: PrismaClient,
-  ) {}
+  constructor(@Inject(PrismaToken) private readonly prisma: PrismaClient) {}
 
   async create(user: IUser): Promise<IUser> {
     // ตรวจสอบว่ามีผู้ใช้ที่มีอีเมลเดียวกันอยู่แล้วหรือไม่
@@ -26,9 +30,9 @@ export class UserPrismaRepository implements UserRepository {
     // สร้างผู้ใช้ใหม่
     const userCreated = await this.prisma.user.create({
       data: {
-        id: uuidv4(),
-        username: user.username,
+        id: uuidv7(),
         email: user.email,
+        username: user.username,
         hashedPassword: user.hashedPassword,
       },
     });
