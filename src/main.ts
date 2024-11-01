@@ -22,7 +22,7 @@ async function bootstrap() {
 
   // สร้างเอกสาร Swagger
   const document = SwaggerModule.createDocument(app, swaggerConfig);
-  SwaggerModule.setup('api/docs', app, document);
+  SwaggerModule.setup('api/v1/docs', app, document);
 
   // เปิดใช้งาน API Versioning
   app.enableVersioning({
