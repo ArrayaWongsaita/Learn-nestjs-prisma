@@ -1,0 +1,10 @@
+how to use admin guard
+@Controller('admin')
+export class AdminController {
+  @Get()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin')
+  getAdminData() {
+    return 'This is admin data';
+  }
+}
