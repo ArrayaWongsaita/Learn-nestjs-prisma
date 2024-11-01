@@ -20,15 +20,17 @@ async function bootstrap() {
     credentials: true,
   });
 
-  // สร้างเอกสาร Swagger
-  const document = SwaggerModule.createDocument(app, swaggerConfig);
-  SwaggerModule.setup('api/v1/docs', app, document);
-
-  // เปิดใช้งาน API Versioning
+  // เปิดการกำหนดเวอร์ชัน API
   app.enableVersioning({
-    type: VersioningType.URI, // ใช้รูปแบบ /v1/route
-    defaultVersion: '1', // กำหนดเวอร์ชันเริ่มต้นเป็น v1
+    type: VersioningType.URI,
+    defaultVersion: '1',
   });
+
+  // สร้างเอกสาร Swagger
+  const document = SwaggerModule.createDocument(app, swaggerConfig, {
+    deepScanRoutes: true,
+  });
+  SwaggerModule.setup('api/docs', app, document);
 
   app.useGlobalInterceptors(new LoggingInterceptor());
 
