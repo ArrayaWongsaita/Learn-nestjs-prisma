@@ -1,0 +1,15 @@
+@PORT=3000
+@VERSION=v1
+### create user
+
+POST http://localhost:{{PORT}}/{{VERSION}}/admin
+Content-Type: application/json
+
+{
+  "code": "admin",
+  "email": "test72@mail.com",
+  "password": "12345678",
+  "confirmPassword": "12345678"
+}
+
+###

@@ -1,0 +1,94 @@
+project-root/
+├── src/
+│   ├── application/
+│   │   ├── services/
+│   │   │   ├── product.service.ts
+│   │   │   ├── user.service.ts
+│   │   │   ├── cart.service.ts
+│   │   │   ├── productCollection.service.ts
+│   │   │   ├── productType.service.ts
+│   │   │   ├── productColorPalette.service.ts
+│   │   ├── dto/
+│   │   │   ├── create-product.dto.ts
+│   │   │   ├── update-product.dto.ts
+│   │   │   ├── create-user.dto.ts
+│   │   │   ├── create-cart.dto.ts
+│   │   │   ├── create-productCollection.dto.ts
+│   │   │   ├── update-productCollection.dto.ts
+│   │   │   ├── create-productType.dto.ts
+│   │   │   ├── update-productType.dto.ts
+│   │   │   ├── create-productColorPalette.dto.ts
+│   │   │   ├── update-productColorPalette.dto.ts
+│   ├── configs/
+│   │   ├── prisma.config.ts
+│   │   ├── bcrypt.config.ts
+│   │   ├── jwt.config.ts
+│   │   ├── port.config.ts
+│   ├── domain/
+│   │   ├── entities/
+│   │   │   ├── product.entity.ts
+│   │   │   ├── user.entity.ts
+│   │   │   ├── cart.entity.ts
+│   │   │   ├── productCollection.entity.ts
+│   │   │   ├── productType.entity.ts
+│   │   │   ├── productColorPalette.entity.ts
+│   │   ├── repositories/
+│   │   │   ├── product.repository.ts
+│   │   │   ├── user.repository.ts
+│   │   │   ├── cart.repository.ts
+│   │   │   ├── productCollection.repository.ts
+│   │   │   ├── productType.repository.ts
+│   │   │   ├── productColorPalette.repository.ts
+│   ├── infrastructure/
+│   │   ├── orm/
+│   │   │   ├── prisma.service.ts
+│   │   │   ├── product.prisma-repository.ts
+│   │   │   ├── user.prisma-repository.ts
+│   │   │   ├── cart.prisma-repository.ts
+│   │   │   ├── productCollection.prisma-repository.ts
+│   │   │   ├── productType.prisma-repository.ts
+│   │   │   ├── productColorPalette.prisma-repository.ts
+│   │   ├── adapters/
+│   │   │   ├── controllers/
+│   │   │   │   ├── product.controller.ts
+│   │   │   │   ├── user.controller.ts
+│   │   │   │   ├── cart.controller.ts
+│   │   │   │   ├── productCollection.controller.ts
+│   │   │   │   ├── productType.controller.ts
+│   │   │   │   ├── productColorPalette.controller.ts
+│   │   │   ├── rest/
+│   │   │   │   ├── product.rest.ts
+│   │   │   │   ├── user.rest.ts
+│   │   │   │   ├── cart.rest.ts
+│   │   │   │   ├── productCollection.rest.ts
+│   │   │   │   ├── productType.rest.ts
+│   │   │   │   ├── productColorPalette.rest.ts
+│   ├── main.ts
+├── test/
+│   ├── unit/
+│   │   ├── product.service.spec.ts
+│   │   ├── user.service.spec.ts
+│   │   ├── cart.service.spec.ts
+│   │   ├── productCollection.service.spec.ts
+│   │   ├── productType.service.spec.ts
+│   │   ├── productColorPalette.service.spec.ts
+│   ├── integration/
+│   │   ├── product.controller.spec.ts
+│   │   ├── user.controller.spec.ts
+│   │   ├── cart.controller.spec.ts
+│   │   ├── productCollection.controller.spec.ts
+│   │   ├── productType.controller.spec.ts
+│   │   ├── productColorPalette.controller.spec.ts
+│   ├── e2e/
+│   │   ├── product.e2e-spec.ts
+│   │   ├── user.e2e-spec.ts
+│   │   ├── cart.e2e-spec.ts
+│   │   ├── productCollection.e2e-spec.ts
+│   │   ├── productType.e2e-spec.ts
+│   │   ├── productColorPalette.e2e-spec.ts
+├── package.json
+├── tsconfig.json
+├── .env
+
+
+
