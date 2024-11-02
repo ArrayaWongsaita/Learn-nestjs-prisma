@@ -1,4 +1,4 @@
-import { ProductType } from 'src/modules/product/entities/entitys/product-type/product-type.entity';
+import { ProductType } from '../../entities/entitys/product-type.entity';
 
 //product type repository interface
 const ProductTypeRepository: unique symbol = Symbol('ProductTypeRepository');

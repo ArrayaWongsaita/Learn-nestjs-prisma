@@ -19,7 +19,7 @@ export class CloudinaryService {
     return new Promise((resolve, reject) => {
       v2.uploader.upload(
         file,
-        { folder: 'nestjs-cloudinary' },
+        { folder: 'Unibijoux' },
         (error: UploadApiErrorResponse, result: UploadApiResponse) => {
           if (error) {
             return reject(error);

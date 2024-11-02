@@ -1,13 +1,13 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { v7 as uuidv7 } from 'uuid';
+import { Builder } from 'builder-pattern';
 import {
   IProductTypeRepository,
   ProductTypeRepositoryToken,
-} from '../../interfaces/repositories/product-type/product-type.repository.interface';
-import { ProductType } from '../../entities/entitys/product-type/product-type.entity';
+} from '../interfaces/repositories/product-type.repository.interface';
 import { CloudinaryService } from 'src/common/cloudinary/cloudinary.service';
-import { v7 as uuidv7 } from 'uuid';
-import { Builder } from 'builder-pattern';
-import { ProductTypeBuilder } from '../../entities/builders/product-type/product-type.builder';
+import { ProductType } from '../entities/entitys/product-type.entity';
+import { ProductTypeBuilder } from '../entities/builders/product-type.builder';
 
 @Injectable()
 export class ProductTypeService {

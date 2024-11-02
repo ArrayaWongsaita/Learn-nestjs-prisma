@@ -1,3 +1,4 @@
+// src/app.module.ts
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MulterModule } from '@nestjs/platform-express';
@@ -5,7 +6,8 @@ import { PrismaModule } from './common/prisma/prisma.module';
 import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { AdminModule } from './modules/admin/adimin.module';
-import { ProductModule } from './modules/product/product.module';
+import { ProductCollectionModule } from './modules/product-collection/product-collection.module';
+import { ProductTypeModule } from './modules/product-type/product-type.module';
 
 @Module({
   imports: [
@@ -19,7 +21,8 @@ import { ProductModule } from './modules/product/product.module';
     UserModule,
     AuthModule,
     AdminModule,
-    ProductModule,
+    ProductTypeModule,
+    ProductCollectionModule,
   ],
 })
 export class AppModule {}
