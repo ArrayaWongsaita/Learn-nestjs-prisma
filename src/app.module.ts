@@ -8,6 +8,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { AdminModule } from './modules/admin/adimin.module';
 import { ProductCollectionModule } from './modules/product-collection/product-collection.module';
 import { ProductTypeModule } from './modules/product-type/product-type.module';
+import { ProductColorPaletteModule } from './modules/product-color-palette/product-color-palette.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { ProductTypeModule } from './modules/product-type/product-type.module';
     AdminModule,
     ProductTypeModule,
     ProductCollectionModule,
+    ProductColorPaletteModule,
   ],
 })
 export class AppModule {}
