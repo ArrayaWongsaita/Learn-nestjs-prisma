@@ -9,10 +9,9 @@ import {
   Version,
   UseGuards,
   Get,
+  BadRequestException,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { CreateProductTypeDto } from '../../dtos/product-type/create-product-type.dto';
-
 import { JwtAuthGuard } from 'src/common/jsonwebtoken/jwtAuth.guard';
 import { RolesGuard } from 'src/common/guards/roles.guard';
 import { ROLES } from 'src/shared/constants/roles.constants';
@@ -20,9 +19,10 @@ import { multerOptions } from 'src/common/upload/multerOptions';
 import * as fs from 'fs';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { FileValidationPipe } from 'src/common/pipe/fileValidation.pipe';
-import { ProductTypeService } from '../../services/product-type/product-type.service';
-import { ProductType } from '../../entities/entitys/product-type/product-type.entity';
 import { ApiOperation } from '@nestjs/swagger';
+import { ProductType } from '../entities/entitys/product-type.entity';
+import { CreateProductTypeDto } from '../dtos/create-product-type.dto';
+import { ProductTypeService } from '../services/product-type.service';
 
 @Controller('product-type')
 export class ProductTypeController {
@@ -40,6 +40,9 @@ export class ProductTypeController {
     @UploadedFile() file: Express.Multer.File,
   ): Promise<ProductType> {
     try {
+      if (!file) {
+        throw new BadRequestException('No file uploaded');
+      }
       const data = {
         name: createProductTypeDto.name,
         imageUrl: file.path,

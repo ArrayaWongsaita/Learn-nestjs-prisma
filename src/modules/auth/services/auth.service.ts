@@ -29,7 +29,7 @@ export class AuthService {
   async loginAdmin({ email, password }: LoginDto): Promise<string> {
     const admin = await this.adminRepository.findByEmail(email);
     if (!admin || !(await compare(password, admin.hashedPassword))) {
-      throw new UnauthorizedException('Invalid credentials');
+      throw new UnauthorizedException('Invalid email or password');
     }
     const payload = { sub: admin.id, email: admin.email, role: ROLES.ADMIN };
     return this.jwtService.sign(payload);

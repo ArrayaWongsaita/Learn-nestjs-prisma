@@ -1,4 +1,4 @@
-import { ProductType } from '../../entitys/product-type/product-type.entity';
+import { ProductType } from '../entitys/product-type.entity';
 
 export class ProductTypeBuilder implements ProductType {
   id: string;
