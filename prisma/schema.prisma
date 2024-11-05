@@ -32,7 +32,7 @@ enum Gender {
 }
 
 model User {
-  id             String      @id @default(uuid()) @map("id")
+  id             String   @id @default(uuid()) @map("id")
   email          String   @unique @map("email") @db.VarChar(255)
   hashedPassword String   @map("password") @db.VarChar(255)
   username       String   @map("username") @db.VarChar(100)
@@ -45,8 +45,8 @@ model User {
 }
 
 model Cart {
-  id           String      @id @default(uuid()) @map("id")
-  userId       String        @unique @map("user_id")
+  id           String     @id @default(uuid()) @map("id")
+  userId       String     @unique @map("user_id")
   discountCode String?    @map("discount_code") @db.VarChar(50)
   user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   cartItems    CartItem[]
@@ -58,7 +58,7 @@ model Cart {
 }
 
 model ProductType {
-  id                 String      @id @default(uuid()) @map("id")
+  id                 String              @id @default(uuid()) @map("id")
   name               String              @map("name") @db.VarChar(100)
   imageUrl           String?             @map("image_url") @db.VarChar(255)
   productCollections ProductCollection[]
@@ -69,7 +69,7 @@ model ProductType {
 }
 
 model ProductCollection {
-  id        String      @id @default(uuid()) @map("id")
+  id        String    @id @default(uuid()) @map("id")
   name      String    @map("name") @db.VarChar(100)
   imageUrl  String?   @map("image_url") @db.VarChar(255)
   products  Product[]
@@ -77,7 +77,7 @@ model ProductCollection {
   updatedAt DateTime  @updatedAt @map("updated_at")
 
   productType         ProductType           @relation(fields: [productTypeId], references: [id])
-  productTypeId       String                   @map("product_type_id")
+  productTypeId       String                @map("product_type_id")
   ProductColorPalette ProductColorPalette[]
   ProductMaterial     ProductMaterial[]
   ProductSize         ProductSize[]
@@ -86,83 +86,86 @@ model ProductCollection {
 }
 
 model Product {
-  id                    String      @id @default(uuid()) @map("id")
-  name                  String               @map("name") @db.VarChar(255)
-  basePrice             Decimal              @map("base_price")
-  imageUrl              String?              @map("image_url") @db.VarChar(255)
-  productCollectionId   String                  @map("product_collection_id")
-  productCollection     ProductCollection    @relation(fields: [productCollectionId], references: [id])
-  productColorPaletteId String?                 @map("product_color_palette_id")
-  productColorPalette   ProductColorPalette? @relation(fields: [productColorPaletteId], references: [id])
-  productMaterialId     String?                 @map("product_material_id")
-  productMaterial       ProductMaterial?     @relation(fields: [productMaterialId], references: [id])
-  productSizeId         String?                 @map("product_size_id")
-  productSize           ProductSize?         @relation(fields: [productSizeId], references: [id])
+  id                    String              @id @default(uuid()) @map("id")
+  name                  String              @map("name") @db.VarChar(255)
+  basePrice             Decimal             @map("base_price")
+  imageUrl              String              @map("image_url") @db.VarChar(255)
+  productCollectionId   String              @map("product_collection_id")
+  productCollection     ProductCollection   @relation(fields: [productCollectionId], references: [id])
+  productColorPaletteId String              @map("product_color_palette_id")
+  productColorPalette   ProductColorPalette @relation(fields: [productColorPaletteId], references: [id])
+  productMaterialId     String              @map("product_material_id")
+  productMaterial       ProductMaterial     @relation(fields: [productMaterialId], references: [id])
   cartItems             CartItem[]
   orderItems            OrderItem[]
-  createdAt             DateTime             @default(now()) @map("created_at")
-  updatedAt             DateTime             @updatedAt @map("updated_at")
+  createdAt             DateTime            @default(now()) @map("created_at")
+  updatedAt             DateTime            @updatedAt @map("updated_at")
 
   @@map("products")
 }
 
 model ProductColorPalette {
-  id        String      @id @default(uuid()) @map("id")
+  id        String    @id @default(uuid()) @map("id")
   name      String    @map("name") @db.VarChar(50)
   colorCode String    @map("color_code") @db.VarChar(255)
   products  Product[]
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime  @updatedAt @map("updated_at")
 
-  productCollectionId String               @map("product_collection_id")
+  productCollectionId String            @map("product_collection_id")
   productCollection   ProductCollection @relation(fields: [productCollectionId], references: [id])
 
   @@map("product_color_palettes")
 }
 
 model ProductMaterial {
-  id        String      @id @default(uuid()) @map("id")
-  colorCode String?   @map("color_code") @db.VarChar(255)
+  id        String    @id @default(uuid()) @map("id")
+  colorCode String    @map("color_code") @db.VarChar(255)
+  material  String    @map("material") @db.VarChar(255)
   products  Product[]
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime  @updatedAt @map("updated_at")
 
-  productCollectionId String               @map("product_collection_id")
+  productCollectionId String            @map("product_collection_id")
   productCollection   ProductCollection @relation(fields: [productCollectionId], references: [id])
 
   @@map("product_materials")
 }
 
 model ProductSize {
-  id       String      @id @default(uuid()) @map("id")
-  size      Float     @map("size")
-  gender    Gender    @map("gender")
-  products  Product[]
-  createdAt DateTime  @default(now()) @map("created_at")
-  updatedAt DateTime  @updatedAt @map("updated_at")
+  id     String @id @default(uuid()) @map("id")
+  size   Float  @map("size")
+  gender Gender @map("gender")
 
-  productCollectionId String               @map("product_collection_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  productCollectionId String            @map("product_collection_id")
   productCollection   ProductCollection @relation(fields: [productCollectionId], references: [id])
+  CartItem            CartItem[]
+  OrderItem           OrderItem[]
 
   @@map("product_sizes")
 }
 
 model CartItem {
-  id        String      @id @default(uuid()) @map("id")
-  cartId    String      @map("cart_id")
-  productId String      @map("product_id")
-  quantity  Int      @default(1) @map("quantity")
-  cart      Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
-  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  id            String      @id @default(uuid()) @map("id")
+  cartId        String      @map("cart_id")
+  productId     String      @map("product_id")
+  quantity      Int         @default(1) @map("quantity")
+  productSizeId String      @map("product_size_id")
+  productSize   ProductSize @relation(fields: [productSizeId], references: [id])
+  cart          Cart        @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  product       Product     @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt     DateTime    @default(now()) @map("created_at")
+  updatedAt     DateTime    @updatedAt @map("updated_at")
 
   @@map("cart_items")
 }
 
 model Order {
-  id            String      @id @default(uuid()) @map("id")
-  userId         String         @map("user_id")
+  id             String      @id @default(uuid()) @map("id")
+  userId         String      @map("user_id")
   totalAmount    Decimal     @map("total_amount")
   discountCode   String?     @map("discount_code") @db.VarChar(50)
   discountAmount Decimal?    @map("discount_amount")
@@ -178,22 +181,24 @@ model Order {
 }
 
 model OrderItem {
-  id        String      @id @default(uuid()) @map("id")
-  orderId   String      @map("order_id")
-  productId String      @map("product_id")
-  quantity  Int      @default(1) @map("quantity")
-  price     Decimal  @map("price")
-  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  id            String      @id @default(uuid()) @map("id")
+  orderId       String      @map("order_id")
+  productId     String      @map("product_id")
+  quantity      Int         @default(1) @map("quantity")
+  productSizeId String      @map("product_size_id")
+  productSize   ProductSize @relation(fields: [productSizeId], references: [id])
+  price         Decimal     @map("price")
+  order         Order       @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product       Product     @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt     DateTime    @default(now()) @map("created_at")
+  updatedAt     DateTime    @updatedAt @map("updated_at")
 
   @@map("order_items")
 }
 
 model Payment {
-  id         String      @id @default(uuid()) @map("id")
-  orderId    String           @unique @map("order_id")
+  id         String        @id @default(uuid()) @map("id")
+  orderId    String        @unique @map("order_id")
   amount     Decimal       @map("amount")
   status     PaymentStatus @default(PENDING) @map("status")
   slipUrl    String        @map("slip_url") @db.VarChar(255)
@@ -207,7 +212,7 @@ model Payment {
 }
 
 model Discount {
-  id          String      @id @default(uuid()) @map("id")
+  id          String       @id @default(uuid()) @map("id")
   code        String       @unique @map("code") @db.VarChar(50)
   type        DiscountType @map("type")
   value       Decimal      @map("value")
@@ -227,11 +232,11 @@ model Discount {
 }
 
 model Admin {
-  id        String      @id @default(uuid()) @map("id")
-  email     String   @unique @map("email") @db.VarChar(255)
-  hashedPassword  String   @map("password") @db.VarChar(255)
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  id             String   @id @default(uuid()) @map("id")
+  email          String   @unique @map("email") @db.VarChar(255)
+  hashedPassword String   @map("password") @db.VarChar(255)
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
 
   @@map("admins")
 }
