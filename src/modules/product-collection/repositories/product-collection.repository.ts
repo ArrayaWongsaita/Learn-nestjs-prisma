@@ -4,7 +4,17 @@ import { ProductCollection } from '../entities/entitys/product-collection.entity
 import { Inject } from '@nestjs/common';
 import { PrismaServiceToken } from 'src/common/prisma/prisma.constants';
 import { PrismaService } from 'src/common/prisma/prisma.service';
+import { ProductCollectionAndDetails } from '../entities/entitys/product-collection-and-details.entity';
+import { selectProductMaterial } from 'src/modules/product-material/repositories/product-material.repository';
+import { productColorPaletteSelect } from 'src/modules/product-color-palette/repositories/product-color-palette.repository';
+import { productSizeSelect } from 'src/modules/product-size/repositories/product-size.repository';
 
+export const ProductCollectionSelect = {
+  id: true,
+  name: true,
+  imageUrl: true,
+  productTypeId: true,
+};
 export class ProductCollectionRepository
   implements ProductCollectionRepositoryInterface
 {
@@ -33,6 +43,20 @@ export class ProductCollectionRepository
       createdProductCollection.productTypeId,
     );
   }
+  async getProductCollectionAndDetailById(
+    id: string,
+  ): Promise<ProductCollectionAndDetails> {
+    return await this.prisma.productCollection.findUnique({
+      where: { id },
+      select: {
+        ...ProductCollectionSelect,
+        ProductMaterial: { select: selectProductMaterial },
+        ProductColorPalette: { select: productColorPaletteSelect },
+        ProductSize: { select: productSizeSelect },
+      },
+    });
+  }
+
   getAllProductCollections(): Promise<ProductCollection[]> {
     return this.prisma.productCollection.findMany();
   }

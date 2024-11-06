@@ -3,6 +3,12 @@ import { Inject } from '@nestjs/common';
 import { PrismaServiceToken } from 'src/common/prisma/prisma.constants';
 import { PrismaService } from 'src/common/prisma/prisma.service';
 
+export const selectProductMaterial = {
+  id: true,
+  colorCode: true,
+  material: true,
+  productCollectionId: true,
+};
 export class ProductMaterialRepository {
   constructor(
     @Inject(PrismaServiceToken)
@@ -16,12 +22,7 @@ export class ProductMaterialRepository {
         colorCode: productMaterial.colorCode,
         productCollectionId: productMaterial.productCollectionId,
       },
-      select: {
-        id: true,
-        colorCode: true,
-        material: true,
-        productCollectionId: true,
-      },
+      select: selectProductMaterial,
     });
   }
 
@@ -30,12 +31,7 @@ export class ProductMaterialRepository {
       where: {
         productCollectionId,
       },
-      select: {
-        id: true,
-        material: true,
-        colorCode: true,
-        productCollectionId: true,
-      },
+      select: selectProductMaterial,
     });
   }
 }

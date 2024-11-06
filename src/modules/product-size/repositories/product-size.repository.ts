@@ -4,6 +4,12 @@ import { ProductSizeRepositoryInterface } from '../interfaces/product-size.repos
 import { Inject } from '@nestjs/common';
 import { PrismaServiceToken } from 'src/common/prisma/prisma.constants';
 
+export const productSizeSelect = {
+  id: true,
+  size: true,
+  gender: true,
+  productCollectionId: true,
+};
 export class ProductSizeRepository implements ProductSizeRepositoryInterface {
   constructor(
     @Inject(PrismaServiceToken)
@@ -18,12 +24,7 @@ export class ProductSizeRepository implements ProductSizeRepositoryInterface {
         gender: productSize.gender,
         productCollectionId: productSize.productCollectionId,
       },
-      select: {
-        id: true,
-        size: true,
-        gender: true,
-        productCollectionId: true,
-      },
+      select: productSizeSelect,
     });
   }
 
@@ -34,12 +35,7 @@ export class ProductSizeRepository implements ProductSizeRepositoryInterface {
       where: {
         productCollectionId,
       },
-      select: {
-        id: true,
-        size: true,
-        gender: true,
-        productCollectionId: true,
-      },
+      select: productSizeSelect,
     });
   }
 }

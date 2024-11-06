@@ -5,7 +5,7 @@ import { ProductMaterial } from '../entities/product-material.entity';
 import {
   ProductMaterialRepositoryInterface,
   ProductMaterialRepositoryToken,
-} from '../interfaces/product-meaterial.repository.interface';
+} from '../interfaces/product-material.repository.interface';
 import { Builder } from 'builder-pattern';
 import { v7 as uuidV7 } from 'uuid';
 import { CreateProductMaterialDto } from '../dtos/create-product-material.dto';

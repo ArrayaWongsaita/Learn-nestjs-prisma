@@ -1,5 +1,5 @@
 import { ConflictException, Inject, Injectable } from '@nestjs/common';
-import { AdminRepository } from '../repositories/admin.prsima.repository';
+import { AdminRepository } from '../repositories/admin.prisma.repository';
 
 import { Builder } from 'builder-pattern';
 import { AdminBuilder } from '../entities/builders/admin.builder';
