@@ -7,6 +7,7 @@ import { CloudinaryService } from 'src/common/cloudinary/cloudinary.service';
 import { ProductCollection } from '../entities/entitys/product-collection.entity';
 import { Builder } from 'builder-pattern';
 import { v7 as uuidv7 } from 'uuid';
+import { ProductCollectionAndDetails } from '../entities/entitys/product-collection-and-details.entity';
 
 @Injectable()
 export class ProductCollectionService {
@@ -15,6 +16,14 @@ export class ProductCollectionService {
     private readonly productCollectionRepository: ProductCollectionRepositoryInterface,
     private readonly cloudinaryService: CloudinaryService,
   ) {}
+
+  async getProductCollectionAndDetailsById(
+    id: string,
+  ): Promise<ProductCollectionAndDetails> {
+    return this.productCollectionRepository.getProductCollectionAndDetailById(
+      id,
+    );
+  }
 
   async createProductCollection({
     name,

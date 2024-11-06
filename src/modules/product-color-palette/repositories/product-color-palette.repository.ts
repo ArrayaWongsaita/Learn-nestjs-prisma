@@ -3,8 +3,14 @@ import { Inject, Injectable } from '@nestjs/common';
 import { ProductColorPaletteRepositoryInterface } from '../interfaces/product-color-palette.repository.interface';
 import { PrismaServiceToken } from 'src/common/prisma/prisma.constants';
 import { PrismaService } from 'src/common/prisma/prisma.service';
-import { ProductColorPalette } from '@prisma/client';
+import { ProductColorPalette } from '../entities/product-color-palette.entity';
 
+export const productColorPaletteSelect = {
+  id: true,
+  name: true,
+  colorCode: true,
+  productCollectionId: true,
+};
 @Injectable()
 export class ProductColorPaletteRepository
   implements ProductColorPaletteRepositoryInterface
@@ -23,6 +29,7 @@ export class ProductColorPaletteRepository
         colorCode: data.colorCode,
         productCollectionId: data.productCollectionId,
       },
+      select: productColorPaletteSelect,
     });
   }
   async getAllProductColorPaletteBypProductCollectionId(
@@ -32,6 +39,7 @@ export class ProductColorPaletteRepository
       where: {
         productCollectionId: productCollectionId,
       },
+      select: productColorPaletteSelect,
     });
   }
   getAllProductColorPalettes(): Promise<any[]> {

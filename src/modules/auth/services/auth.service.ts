@@ -5,7 +5,7 @@ import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from '../dtos/login.dto';
 import { UserRepository } from 'src/modules/user/repositories/user.prisma.repository';
 import { AdminRepositoryToken } from 'src/modules/admin/interfaces/repositories/admin.repository.interface';
-import { AdminRepository } from 'src/modules/admin/repositories/admin.prsima.repository';
+import { AdminRepository } from 'src/modules/admin/repositories/admin.prisma.repository';
 import { ROLES } from 'src/shared/constants/roles.constants';
 @Injectable()
 export class AuthService {

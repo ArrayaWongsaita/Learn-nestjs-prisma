@@ -9,7 +9,7 @@ import { AuthController } from './controllers/auth.controller';
 import { UserRepository } from '../user/repositories/user.prisma.repository';
 import { UserRepositoryToken } from '../user/interfaces/repositories/user.repository.interface';
 import { AdminRepositoryToken } from '../admin/interfaces/repositories/admin.repository.interface';
-import { AdminRepository } from '../admin/repositories/admin.prsima.repository';
+import { AdminRepository } from '../admin/repositories/admin.prisma.repository';
 
 @Module({
   imports: [

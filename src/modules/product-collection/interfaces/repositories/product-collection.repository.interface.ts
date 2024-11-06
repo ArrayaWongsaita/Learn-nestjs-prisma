@@ -1,4 +1,5 @@
 // product collection repository interface
+import { ProductCollectionAndDetails } from '../../entities/entitys/product-collection-and-details.entity';
 import { ProductCollection } from '../../entities/entitys/product-collection.entity';
 
 const ProductCollectionRepository: unique symbol = Symbol(
@@ -17,6 +18,10 @@ export interface ProductCollectionRepositoryInterface {
   getProductCollectionByName(name: string): Promise<ProductCollection>;
 
   getProductCollections(): Promise<ProductCollection[]>;
+
+  getProductCollectionAndDetailById(
+    id: string,
+  ): Promise<ProductCollectionAndDetails>;
 
   updateProductCollection(
     id: number,

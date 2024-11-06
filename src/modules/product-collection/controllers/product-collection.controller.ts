@@ -3,11 +3,13 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Post,
   UploadedFile,
   UseGuards,
   UseInterceptors,
   UsePipes,
+  ValidationPipe,
   Version,
 } from '@nestjs/common';
 import { ProductCollectionService } from '../services/product-collection.service';
@@ -21,8 +23,10 @@ import { multerOptions } from 'src/common/upload/multerOptions';
 import { FileValidationPipe } from 'src/common/pipe/fileValidation.pipe';
 import * as fs from 'fs';
 
-import { createProductCollectionDto } from '../dtos/product-collection.dto';
+import { createProductCollectionDto } from '../dtos/create-product-collection.dto';
 import { ProductCollection } from '../entities/entitys/product-collection.entity';
+import { ProductCollectionAndDetails } from '../entities/entitys/product-collection-and-details.entity';
+import { getProductCollectionAndDetailDto } from '../dtos/get-product-collection-and-detail.dto';
 
 @Controller('product-collection')
 export class ProductCollectionController {
@@ -71,5 +75,18 @@ export class ProductCollectionController {
   @Version('1')
   async getAllProductCollections(): Promise<ProductCollection[]> {
     return await this.productCollectionService.getAllProductCollections();
+  }
+
+  @Get('/:collectionId/details')
+  @ApiOperation({ summary: 'Get Product collection and details by id' })
+  @Version('1')
+  @UsePipes(ValidationPipe)
+  async getProductCollectionDetails(
+    @Param()
+    { collectionId }: getProductCollectionAndDetailDto,
+  ): Promise<ProductCollectionAndDetails> {
+    return await this.productCollectionService.getProductCollectionAndDetailsById(
+      collectionId,
+    );
   }
 }
